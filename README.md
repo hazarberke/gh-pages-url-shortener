@@ -1,6 +1,8 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub stars](https://img.shields.io/github/stars/nelsontky/gh-pages-url-shortener?style=social)
 
+https://github.com/hazarberke/urls/issues
+
 # 🔗 GitHub Pages URL Shortener
 
 This is a minimal URL shortener that can be entirely hosted on GitHub pages. It
