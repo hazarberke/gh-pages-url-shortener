@@ -9,7 +9,7 @@ Bu proje, uzun URL'leri kısa, paylaşılabilir linklere dönüştüren basit, a
 
 -   Yeni bir kısa bağlantı oluşturmak için, kısaltmak istediğiniz bağlantıyı (HTTP veya HTTPS ile birlikte) [bu depodaki issues sayfasına](https://github.com/hazarberke/urls/issues "null") bir başlık olarak ekleyin.
     
--   Oluşturulan her yeni sorun, otomatik olarak bir kısa bağlantı haline gelir ve `hzr.undo.it/{sorun_numarası}` formatında erişilebilir.
+-   Oluşturulan her yeni sorun, otomatik olarak bir kısa bağlantı haline gelir ve `lnk.ftp.sh/{sorun_numarası}` formatında erişilebilir.
     
 
 ## Özellikler
