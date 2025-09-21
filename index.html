@@ -1,19 +1,207 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="minimum-scale=1, initial-scale=1, width=device-width"
-    />
-    <title>Invalid URL!</title>
-  </head>
-  <body>
-    <p>Short URL is invalid! (Or you have been spamming the site too much)</p>
-    <p>
-      <a href="https://github.com/nelsontky/gh-pages-url-shortener">
-        Learn more about this URL shortener
-      </a>
-    </p>
-  </body>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK.</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Basit spinner animasyonu */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100">
+    <!-- Navbar -->
+    <header class="py-4 md:py-6 sticky top-0 bg-gray-950/80 backdrop-blur-md z-50">
+        <nav class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-indigo-500">
+                LNK.
+            </a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="https://github.com/hazarberke/lnk" target="_blank" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.804 8.204 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.334-1.756-1.334-1.756-1.089-.745.082-.731.082-.731 1.205.086 1.838 1.238 1.838 1.238 1.07 1.831 2.809 1.303 3.492.996.109-.775.42-1.303.768-1.603-2.665-.304-5.467-1.332-5.467-5.931 0-1.311.465-2.381 1.231-3.227-.123-.303-.532-1.52.12-3.179 0 0 1.006-.322 3.3 1.231.956-.266 1.983-.399 3.004-.404 1.02.005 2.048.138 3.006.404 2.29-1.553 3.296-1.231 3.296-1.231.652 1.659.243 2.876.12 3.179.766.846 1.23 1.916 1.23 3.227 0 4.609-2.801 5.629-5.47 5.929.42.365.815 1.096.815 2.219 0 1.606-.015 2.899-.015 3.295 0 .32.217.691.825.576 4.766-1.584 8.203-6.084 8.203-11.385C24 5.373 18.627 0 12 0z"/>
+                    </svg>
+                </a>
+            </div>
+            <button class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section - Link Shortener -->
+        <section class="py-20 md:py-32 text-center">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight text-white mb-4">
+                    Bağlantılarınızı Hızlıca Kısaltın
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                    Uzun, karmaşık URL'leri tek tıkla paylaşılabilir ve yönetilebilir kısa linklere dönüştürün.
+                </p>
+                <a href="https://github.com/hazarberke/urls/issues" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                    Hizmete Başla
+                </a>
+            </div>
+        </section>
+
+        <!-- GitHub Issues Section -->
+        <section class="py-8 md:py-12">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">Son Kısaltılan Bağlantılar</h2>
+                <div id="issues-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Issues will be dynamically loaded here -->
+                    <div class="text-center text-gray-400 col-span-full" id="loading-indicator">
+                        <span class="spinner inline-block"></span>
+                        <p class="mt-4">Bağlantılar yükleniyor...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How-To Guide Section -->
+        <section class="py-8 md:py-12">
+            <div class="container mx-auto px-6">
+                <div class="bg-gray-900 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-800">
+                    <h3 class="text-xl font-semibold text-white mb-4">Nasıl Yapılır?</h3>
+                    <ol class="list-decimal list-inside text-gray-400 space-y-2">
+                        <li>Yeni bir kısa bağlantı eklemek için, kısaltmak istediğiniz bağlantının başlığını (http(s):// dahil) <a href="https://github.com/hazarberke/urls/issues" target="_blank" class="text-indigo-400 hover:underline">https://github.com/hazarberke/urls/issues</a> adresine ekleyin.</li>
+                        <li>Yeni oluşturulan kısa bağlantıya <code class="bg-gray-800 text-sm p-1 rounded">hzr.undo.it/{issue_number}</code> adresinden erişilebilir.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">Neden Bizi Seçmelisiniz?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="bg-gray-900 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-800">
+                        <div class="text-indigo-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Hızlı Bağlantılar</h3>
+                        <p class="text-gray-400">
+                            URL'lerinizi saniyeler içinde kısaltarak zamandan tasarruf edin ve anında paylaşın.
+                        </p>
+                    </div>
+                    <!-- Feature Card 2 -->
+                    <div class="bg-gray-900 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-800">
+                        <div class="text-indigo-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 3.5h2c2.5 0 3.5 1 3.5 3.5v1a3.5 3.5 0 01-3.5 3.5h-2c-2.5 0-3.5-1-3.5-3.5v-1c0-2.5 1-3.5 3.5-3.5z" />
+                                <path d="M11 20.5h2c2.5 0 3.5-1 3.5-3.5v-1a3.5 3.5 0 00-3.5-3.5h-2c-2.5 0-3.5 1-3.5 3.5v1c0 2.5 1 3.5 3.5 3.5z" />
+                                <path d="M12 11v-1" />
+                                <path d="M12 14v-1" />
+                                <path d="M12 11l-3 3" />
+                                <path d="M12 14l3-3" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Açık Kaynak</h3>
+                        <p class="text-gray-400">
+                            Sistemimiz tamamen açık kaynaklıdır. Kod tabanımızı inceleyebilir, katkıda bulunabilir ve bize destek olabilirsiniz.
+                        </p>
+                    </div>
+                    <!-- Feature Card 3 -->
+                    <div class="bg-gray-900 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-800">
+                        <div class="text-indigo-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Geliştirici Dostu API</h3>
+                        <p class="text-gray-400">
+                            API'miz sayesinde kısaltma hizmetini kendi projelerinize kolayca entegre edin.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const issuesContainer = document.getElementById('issues-container');
+            const loadingIndicator = document.getElementById('loading-indicator');
+
+            // GitHub kullanıcı ve depo adını buraya girin. Örnek olarak 'google' ve 'jax' kullanılmıştır.
+            // Kendi deponuz için 'owner' ve 'repo' değerlerini değiştirin.
+            const GITHUB_OWNER = 'google';
+            const GITHUB_REPO = 'jax';
+            const GITHUB_API_URL = `https://api.github.com/repos/hazarberke/urls/issues?state=open&sort=created&per_page=6`;
+
+            const fetchGitHubIssues = async () => {
+                loadingIndicator.classList.remove('hidden');
+
+                try {
+                    const response = await fetch(GITHUB_API_URL);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP hatası! Durum: ${response.status}`);
+                    }
+
+                    const issues = await response.json();
+
+                    if (issues.length === 0) {
+                        issuesContainer.innerHTML = `<p class="text-center text-gray-400 col-span-full">Açık sorun bulunmamaktadır.</p>`;
+                        return;
+                    }
+
+                    issuesContainer.innerHTML = ''; // Yükleniyor göstergesini temizle
+
+                    issues.forEach(issue => {
+                        const issueDate = new Date(issue.created_at).toLocaleDateString('tr-TR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+
+                        const issueCard = document.createElement('a');
+                        issueCard.href = issue.html_url;
+                        issueCard.target = '_blank';
+                        issueCard.className = 'block bg-gray-900 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-800';
+
+                        issueCard.innerHTML = `
+                            <h3 class="text-xl font-semibold text-white mb-2">${issue.title}</h3>
+                            <p class="text-sm text-gray-400 mb-4">#${issue.number} - Açan: ${issue.user.login}</p>
+                            <span class="text-xs text-gray-500">${issueDate}</span>
+                        `;
+
+                        issuesContainer.appendChild(issueCard);
+                    });
+
+                } catch (error) {
+                    console.error("GitHub sorunları yüklenirken bir hata oluştu:", error);
+                    issuesContainer.innerHTML = `<p class="text-center text-red-400 col-span-full">Sorunlar yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>`;
+                }
+            };
+
+            fetchGitHubIssues();
+        });
+    </script>
+</body>
 </html>
